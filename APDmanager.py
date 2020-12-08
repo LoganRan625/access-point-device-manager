@@ -93,6 +93,8 @@ def check_status(device_name, mac_address, active_MACs, mac, date):
                 active_MACs.remove(device_name)
                 write_to_file(device_name + " has not been active for 1 hour " + str(date))
 
+switch = False         
+         
 def MainLoop():
     while True:
         # scanning network, extracting MAC addresses from string 'mac', printing info to '/etc/rc.local/list_MAC.txt'
@@ -109,9 +111,39 @@ def MainLoop():
                 if i not in active_MACs:
                     active_MACs.append(i)
                     write_to_file("Active MACs " + str(active_MACs) + " " + str(date))
+#from here to end, is new may have spacing syntax errors 
+                if i in new_MACs:
+                    if i not in known_devices:
+                        if i in active_MACs:
+                            if switch == False:
+                                switch = True
+                                write_to_file(str(i) + " is an unknown device! it has been added to new_MACs" + str(date))
+                                send_message(str(i) + " is an  unknown device! it has connected to your Access Point")
+                                write_to_file(mac)
+                                    
+                        if i not in active_MACs:
+                             switch = False
+                                    
+# end  december 8th 2020
+
+
             # checking for personal devices           
             if i in known_devices:
                 check_status(i, mac_address, active_MACs, mac, date)
+
+# from here to end is new, may have syntax errors regarding spacing
+            if i in active_MACs:
+                if i not in known_devices:
+                    if i not in mac_address:
+                        Main_count += 1
+                        if Main_counter != 50:
+                            MainLoop()
+                        else:
+                            Main_counter = 0
+                            active_MACs.remove(i)
+                            write_to_file(str(i) + " has been removed from active MACs")
+                            write_to_file(active_MACs)      
+# end december 8th 2020
 
 #---------------------------------------------------------------------------
              # kicking devices that are either not known, trusted or both 
