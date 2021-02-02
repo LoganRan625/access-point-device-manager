@@ -39,15 +39,33 @@ name4 = 'mac here'
 name5 = 'mac here'
 known_devices = [name1, name2, name3, name4, name5]
 
-# ------------ have not executed, unsure if works --------------------------------
-#def kicking(bad_device):
-#    os.system("airmon-ng start wlan0")
-#    for i in range(10,000):
+def kicking(bad_device):
+    global BSSID
+    try:
+        os.system("ifconfig wlan0 down")
+        os.system("airmon-ng start wlan0")
+        os.system("ifconfig wlan0mon up")
+        write_to_file("monitor mode started")
+    except:
+        write_to_file("Error: with monitor mode, in kicking(bad_device) block")
+    for i in range(50):
          # need to remove quotes before deauthentication
-#        bad_device = str(bad_device).strip("[']")
-#        AP = 'put_your_access_point_MAC_here'
-#        os.system("aireplay-ng --deauth 2 -a " + AP + " -c " + bad_device + " wlan0")
-#    os.system("airmon-ng stop wlan0")
+        write_to_file(bad_device)
+        BSSID = str(BSSID).strip("'")
+        bad_device = str(bad_device).strip("[']")
+        write_to_file(bad_device)
+        try:
+            os.system("aireplay-ng --deauth 2 -a " + BSSID + " -c " + bad_device + " wlan0mon")
+        except:
+            write_to_file("Error: with deauthentication process, interupted")
+
+    try:
+        os.system("ifconfig wlan0mon down")
+        os.system("airmon-ng stop wlan0mon")
+        os.system("ifconfig wlan0 up")
+        write_to_file("finished kicking, will try again if device decides to connect")
+    except:
+        write_to_file("Error: with turning off monitor mode")
 
 # will create 'list_MAC.txt' file in the directory this file is run
 def write_to_file(text):
@@ -144,15 +162,12 @@ def MainLoop():
                             write_to_file(str(i) + " has been removed from active MACs")
                             write_to_file(active_MACs)      
 # end december 8th 2020
-
-#---------------------------------------------------------------------------
-             # kicking devices that are either not known, trusted or both 
-#            if i not in known_MACs and i not in known_devices:
-#                write_to_file("an unknown device has connected to your network" + str(i) + " " + str(date))
-#                write_to_file(mac)
-#                write_to_file("Device Needs approval, Kicking device...")
-#                kicking(str(i))
-#----------------------------------------------------------------------------
+ 
+            if i not in known_MACs and i not in known_devices:
+                  write_to_file("an unknown device has connected to your network" + str(i) + " " + str(date))
+                  write_to_file(mac)
+                  write_to_file("Device Needs approval, Kicking device...")
+                  kicking(str(i))
 
 #----------------------------------------------------------------------------
 # TWILIO, need twilio account
