@@ -28,8 +28,9 @@
 ***
 **Issues**
  
-    Becuase of issues i have been unable to resolve the program typicaly runs for an average of 
-    30 mins to 3 hours then stops working.
+    Becuase of issues i have been unable to resolve the program! the program typicaly runs for an average of 
+    30 mins to 3 hours then stops working, based on issues related to errors in arp-scan which i have been unable
+    to get to the bottom of.
     
     I will be remodeling this program using static ip addresses to ping instead 
     of using arp-scan -l for checking mac addresses.
