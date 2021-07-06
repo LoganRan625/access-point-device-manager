@@ -23,7 +23,7 @@
     
     in order to work you will need to sign up for a twillio account and add all nessesary MAC information for your devices
     if you wish to complete this without a twillio account, comment out send_message() and all lines of code within the function
-    as well as each function call, (line 102, 139) you can always theck the file 'list_MAC.txt' for log info. 
+    as well as each function call, (line 102, 139) you can always check the file 'list_MAC.txt' for log info. 
 
 ***
 **Issues**
