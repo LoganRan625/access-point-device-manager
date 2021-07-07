@@ -13,7 +13,8 @@
     python3
     a Twillio account
     
-    pip packages
+PIP PACKAGES
+
     subprocess
     re (regular expressions)
     sys
